@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weather_app/data/my_location.dart';
 import 'package:weather_app/data/network.dart';
 import 'package:weather_app/screen/weather_screen.dart';
@@ -29,9 +30,8 @@ class _LoadingState extends State<Loading> {
     myLatitude2 = myLocation.myLatitude;
 
     Network network = Network(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$myLatitude2&lon=$myLongitude2&appid=$APIKEY');
+        'https://api.openweathermap.org/data/2.5/weather?lat=$myLatitude2&lon=$myLongitude2&appid=$APIKEY&units=metric');
     var weather = await network.getJsonData();
-    print(weather);
     if (!mounted) return;
     Navigator.push(
         context,
@@ -45,12 +45,11 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        body: Center(
-          child: FilledButton(
-              onPressed: () {
-                getLocation();
-              },
-              child: const Text("Get location")),
+        body: const Center(
+          child: SpinKitFadingCircle(
+            color: Colors.white,
+            size: 80,
+          ),
         ));
   }
 }
